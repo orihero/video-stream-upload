@@ -42,7 +42,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         otp: otpText,
       });
     }
-    let r = await SMSService.sendSingleMessage(phone, `Online Repititor kirish kodi: ${otpText}`);
+    let r = await SMSService.sendSingleMessage(phone, `Kod: ${otpText}`);
 
     console.log(JSON.stringify(r.data, null, 4));
 
@@ -69,7 +69,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     }
     const otpText = Math.random().toString().slice(3, 7);
     let foundOTP: IOtp | null = await OtpModel.findOne({ phone });
-    let r = await SMSService.sendSingleMessage(phone, `Online Repititor kirish kodi: ${otpText}`);
+    let r = await SMSService.sendSingleMessage(phone, `Kod: ${otpText}`);
 
     console.log(JSON.stringify(r.data, null, 4));
 

@@ -12,9 +12,6 @@ const otpSchema = new Schema<IOtp & IUser>({
   dateOfBirth: {
     type: String,
   },
-  district: {
-    type: String,
-  },
   email: {
     type: String,
   },

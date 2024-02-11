@@ -48,9 +48,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     res.status(StatusCodes.OK).json({ phone, otp: otpText });
   } catch (error) {
-    console.log('====================================');
+    console.log("====================================");
     console.log(error);
-    console.log('====================================');
+    console.log("====================================");
     next(error);
   }
 };
@@ -122,7 +122,6 @@ const verify = async (req: Request, res: Response, next: NextFunction) => {
       date,
       name,
       region,
-      district,
       parentNumber,
       email,
       dateOfBirth,
@@ -130,7 +129,6 @@ const verify = async (req: Request, res: Response, next: NextFunction) => {
     if (foundOtp.name) {
       await UserModel.create({
         name,
-        district,
         region,
         parentNumber,
         email,

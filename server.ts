@@ -4,17 +4,15 @@ const multer = require("multer");
 const fs = require("fs");
 const app = express();
 import cors from "cors";
-import passport from "passport";
 import session from "express-session";
-import api from "./src/controller";
-import compression from "compression";
-import helmet from "helmet";
 import morgan from "morgan";
-import { initDatabase } from "./src/database/connection";
-import { JWTConfig } from "./src/utils/jwt";
-import { notfound, generic } from "./src/middlewares/error";
+import passport from "passport";
 import { Strategy } from "passport-jwt";
+import api from "./src/controller";
+import { initDatabase } from "./src/database/connection";
 import { UserModel } from "./src/database/models/user";
+import { generic, notfound } from "./src/middlewares/error";
+import { JWTConfig } from "./src/utils/jwt";
 
 passport.serializeUser((user: any, done) => done(null, user));
 

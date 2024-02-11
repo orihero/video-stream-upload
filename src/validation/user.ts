@@ -8,7 +8,6 @@ export const registerValidationSchema = yup.object({
   phone: yup.string().required(),
   name: yup.string().required(),
   dateOfBirth: yup.string().required(),
-  district: yup.string().required(),
   parentNumber: yup.string().required(),
   region: yup.string().required(),
 });

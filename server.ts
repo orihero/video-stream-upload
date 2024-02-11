@@ -13,6 +13,7 @@ import { initDatabase } from "./src/database/connection";
 import { UserModel } from "./src/database/models/user";
 import { generic, notfound } from "./src/middlewares/error";
 import { JWTConfig } from "./src/utils/jwt";
+import { Request, Response } from "express";
 
 passport.serializeUser((user: any, done) => done(null, user));
 
@@ -50,9 +51,9 @@ const initApp = async () => {
     session({ secret: JWTConfig.Options.secretOrKey }),
   ]);
 
-  app.disable('etag');
+  app.disable("etag");
 
-  init()
+  init();
 
   // View Engine Setup
   app.set("views", path.join(__dirname, "views"));
@@ -177,6 +178,24 @@ const initApp = async () => {
   });
 
   app.use("/api", api);
+
+  app.post("*", (req: Request, res: Response, next) => {
+    try {
+      console.log("====================================");
+      console.log(req.url);
+      console.log("====================================");
+    } catch (error) {}
+    next(req);
+  });
+
+  app.get("*", (req: Request, res: Response, next) => {
+    try {
+      console.log("====================================");
+      console.log(req.url);
+      console.log("====================================");
+    } catch (error) {}
+    next(req);
+  });
 
   app.use([notfound, generic]);
 

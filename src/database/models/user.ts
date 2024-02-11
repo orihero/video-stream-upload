@@ -2,7 +2,6 @@ import { Schema, model } from "mongoose";
 
 export interface IUser {
   name: string;
-  email: string;
   phone: string;
   parentNumber: string;
   region: string;
@@ -15,9 +14,6 @@ const userSchema = new Schema<Partial<IUser>>({
   dateOfBirth: {
     type: String,
     required: true,
-  },
-  email: {
-    type: String,
   },
   name: {
     type: String,

@@ -117,21 +117,12 @@ const verify = async (req: Request, res: Response, next: NextFunction) => {
     if (dateNow > dateOtp) {
       throw createHttpError(StatusCodes.BAD_REQUEST, `Invalid otp`);
     }
-    let {
-      otp: _,
-      date,
-      name,
-      region,
-      parentNumber,
-      email,
-      dateOfBirth,
-    } = foundOtp;
+    let { otp: _, date, name, region, parentNumber, dateOfBirth } = foundOtp;
     if (foundOtp.name) {
       await UserModel.create({
         name,
         region,
         parentNumber,
-        email,
         dateOfBirth,
         phone,
       });

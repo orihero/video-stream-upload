@@ -48,6 +48,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     res.status(StatusCodes.OK).json({ phone, otp: otpText });
   } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
     next(error);
   }
 };

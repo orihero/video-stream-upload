@@ -6,17 +6,12 @@ export interface IUser {
   phone: string;
   parentNumber: string;
   region: string;
-  district: string;
   dateOfBirth: string;
   purchasedCourses: string[];
 }
 
 const userSchema = new Schema<Partial<IUser>>({
   dateOfBirth: {
-    type: String,
-    required: true,
-  },
-  district: {
     type: String,
     required: true,
   },

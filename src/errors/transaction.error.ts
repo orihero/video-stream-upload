@@ -15,7 +15,7 @@ export class TransactionError extends BaseError {
     id,
     data?
   ) {
-    super(transactionError.name, transactionError.code);
+    super(transactionError.name);
 
     this.transactionErrorCode = transactionError.code;
     this.transactionErrorMessage = transactionError.message;

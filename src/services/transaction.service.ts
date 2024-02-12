@@ -11,10 +11,11 @@ import { TransactionError } from "@errors/transaction.error";
 export class TransactionService {
   async checkPerformTransaction(params, id) {
     const {
-      account: { phone_number: userId, product_id: productId },
+      account: { user_id: userId },
     } = params;
     let { amount } = params;
     amount = Math.floor(amount / 100);
+
     const user = await UserModel.findOne({ phone: userId });
     if (!user) {
       throw new TransactionError(
@@ -23,12 +24,24 @@ export class TransactionService {
         PaymeData.UserId
       );
     }
+    // const product = await ProductModel.findById(productId);
+    // if (!product) {
+    //   throw new TransactionError(
+    //     PaymeErrors.ProductNotFound,
+    //     id,
+    //     PaymeData.ProductId
+    //   );
+    // }
+    // if (amount !== product.price) {
+    //   throw new TransactionError(PaymeErrors.InvalidAmount, id);
+    // }
   }
   async checkTransaction(params, id) {
-    const transaction = await TransactionModel.findById(params.id);
+    const transaction = await TransactionModel.findOne({ id: params.id });
     if (!transaction) {
       throw new TransactionError(PaymeErrors.TransactionNotFound, id);
     }
+
     return {
       create_time: transaction.create_time,
       perform_time: transaction.perform_time,
@@ -48,8 +61,7 @@ export class TransactionService {
     amount = Math.floor(amount / 100);
 
     await this.checkPerformTransaction(params, id);
-
-    let transaction = await TransactionModel.findById(params.id);
+    let transaction = await TransactionModel.findOne({ id: params.id });
     if (transaction) {
       if (transaction.state !== TransactionStates.Pending) {
         throw new TransactionError(PaymeErrors.CantDoOperation, id);
@@ -61,10 +73,13 @@ export class TransactionService {
         (currentTime - transaction.create_time) / 60000 < 12; // 12m
 
       if (!expirationTime) {
-        await TransactionModel.findByIdAndUpdate(params.id, {
-          state: TransactionStates.PendingCanceled,
-          reason: 4,
-        });
+        await TransactionModel.findOneAndUpdate(
+          { id: params.id },
+          {
+            state: TransactionStates.PendingCanceled,
+            reason: 4,
+          }
+        );
 
         throw new TransactionError(PaymeErrors.CantDoOperation, id);
       }
@@ -74,6 +89,17 @@ export class TransactionService {
         transaction: transaction.id,
         state: TransactionStates.Pending,
       };
+    }
+
+    transaction = await TransactionModel.findOne({
+      user_id: userId,
+      product_id: "productId",
+    });
+    if (transaction) {
+      if (transaction.state === TransactionStates.Paid)
+        throw new TransactionError(PaymeErrors.AlreadyDone, id);
+      if (transaction.state === TransactionStates.Pending)
+        throw new TransactionError(PaymeErrors.Pending, id);
     }
 
     const newTransaction = await TransactionModel.create({

@@ -53,7 +53,7 @@ export class TransactionService {
   }
   async createTransaction(params, id) {
     const {
-      account: { user_id: userId, product_id: productId },
+      account: { phone_number: userId },
       time,
     } = params;
     let { amount } = params;
@@ -91,7 +91,7 @@ export class TransactionService {
 
     transaction = await TransactionModel.findOne({
       user_id: userId,
-      product_id: productId,
+      product_id: "productId",
     });
     if (transaction) {
       if (transaction.state === TransactionStates.Paid)
@@ -105,7 +105,7 @@ export class TransactionService {
       state: TransactionStates.Pending,
       amount,
       user_id: userId,
-      product_id: productId,
+      product_id: "productId",
       create_time: time,
     });
 

@@ -62,60 +62,68 @@ export class TransactionService {
 
     await this.checkPerformTransaction(params, id);
     let transaction = await TransactionModel.findOne({ id: params.id });
-    if (transaction) {
-      if (transaction.state !== TransactionStates.Pending) {
-        throw new TransactionError(PaymeErrors.CantDoOperation, id);
-      }
-
-      const currentTime = Date.now();
-
-      const expirationTime =
-        (currentTime - transaction.create_time) / 60000 < 12; // 12m
-
-      if (!expirationTime) {
-        await TransactionModel.findOneAndUpdate(
-          { id: params.id },
-          {
-            state: TransactionStates.PendingCanceled,
-            reason: 4,
-          }
-        );
-
-        throw new TransactionError(PaymeErrors.CantDoOperation, id);
-      }
-
+    if (!!transaction) {
       return {
-        create_time: transaction.create_time,
         transaction: transaction.id,
-        state: TransactionStates.Pending,
+        state: transaction.state,
+        create_time: transaction.create_time,
       };
     }
+    // console.log("====================================");
+    // console.log({ transaction });
+    // console.log("====================================");
+    // if (transaction) {
+    //   if (transaction.state !== TransactionStates.Pending) {
+    //     throw new TransactionError(PaymeErrors.CantDoOperation, id);
+    //   }
 
-    transaction = await TransactionModel.findOne({
-      user_id: userId,
-      product_id: "productId",
-    });
-    if (transaction) {
-      if (transaction.state === TransactionStates.Paid)
-        throw new TransactionError(PaymeErrors.AlreadyDone, id);
-      if (transaction.state === TransactionStates.Pending)
-        throw new TransactionError(PaymeErrors.Pending, id);
-    }
+    //   const currentTime = Date.now();
 
-    const newTransaction = await TransactionModel.create({
-      id: params.id,
-      state: TransactionStates.Pending,
-      amount,
-      user_id: userId,
-      product_id: "productId",
-      create_time: time,
-    });
+    //   const expirationTime =
+    //     (currentTime - transaction.create_time) / 60000 < 12; // 12m
 
-    return {
-      transaction: newTransaction.id,
-      state: TransactionStates.Pending,
-      create_time: newTransaction.create_time,
-    };
+    //   if (!expirationTime) {
+    //     await TransactionModel.findOneAndUpdate(
+    //       { id: params.id },
+    //       {
+    //         state: TransactionStates.PendingCanceled,
+    //         reason: 4,
+    //       }
+    //     );
+
+    //     throw new TransactionError(PaymeErrors.CantDoOperation, id);
+    //   }
+
+    //   return {
+    //     create_time: transaction.create_time,
+    //     transaction: transaction.id,
+    //     state: TransactionStates.Pending,
+    //   };
+    // }
+
+    // // transaction = await TransactionModel.findOne({ id: params.id });
+
+    // // if (transaction) {
+    // //   if (transaction.state === TransactionStates.Paid)
+    // //     throw new TransactionError(PaymeErrors.AlreadyDone, id);
+    // //   if (transaction.state === TransactionStates.Pending)
+    // //     throw new TransactionError(PaymeErrors.Pending, id);
+    // // }
+
+    // const newTransaction = await TransactionModel.create({
+    //   id: params.id,
+    //   state: TransactionStates.Pending,
+    //   amount,
+    //   user_id: userId,
+    //   product_id: "productId",
+    //   create_time: time,
+    // });
+
+    // return {
+    //   transaction: newTransaction.id,
+    //   state: TransactionStates.Pending,
+    //   create_time: newTransaction.create_time,
+    // };
   }
   async performTransaction(params, id) {
     const currentTime = Date.now();

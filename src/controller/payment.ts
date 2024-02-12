@@ -35,10 +35,6 @@ const payme = async (req: Request, res: Response, next: NextFunction) => {
         }
       }
     } catch (err: any) {
-      console.log("====================================");
-      console.log(JSON.stringify(err, null, 4));
-      console.log(JSON.stringify(req.body, null, 4));
-      console.log("====================================");
       res.json({
         error: {
           code: err.transactionErrorCode,

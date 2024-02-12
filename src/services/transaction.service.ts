@@ -61,7 +61,9 @@ export class TransactionService {
     amount = Math.floor(amount / 100);
 
     await this.checkPerformTransaction(params, id);
-
+    console.log('====================================');
+    console.log(params.id);
+    console.log('====================================');
     let transaction = await TransactionModel.findById(params.id);
     if (transaction) {
       if (transaction.state !== TransactionStates.Pending) {

@@ -35,7 +35,10 @@ const payme = async (req: Request, res: Response, next: NextFunction) => {
         }
       }
     } catch (err) {
-      next(err);
+      console.log("====================================");
+      console.log(JSON.stringify(err));
+      console.log("====================================");
+      res.json(err)
     }
   } catch (error) {}
 };

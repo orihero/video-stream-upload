@@ -132,7 +132,7 @@ export class TransactionService {
   async performTransaction(params, id) {
     const currentTime = Date.now();
 
-    const transaction = await TransactionModel.findById(params.id);
+    const transaction = await TransactionModel.findOne({ id: params.id });
     if (!transaction) {
       throw new TransactionError(PaymeErrors.TransactionNotFound, id);
     }

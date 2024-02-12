@@ -34,11 +34,19 @@ const payme = async (req: Request, res: Response, next: NextFunction) => {
           return res.json({ result, id });
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log("====================================");
-      console.log(JSON.stringify(err));
+      console.log(JSON.stringify(err, null, 4));
+      console.log(JSON.stringify(req.body, null, 4));
       console.log("====================================");
-      res.json(err)
+      res.json({
+        error: {
+          code: err.transactionErrorCode,
+          message: err.transactionErrorMessage,
+          data: err.transactionData,
+        },
+        id: req.body.id,
+      });
     }
   } catch (error) {}
 };

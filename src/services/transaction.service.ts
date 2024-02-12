@@ -24,17 +24,17 @@ export class TransactionService {
         PaymeData.UserId
       );
     }
-    const product = await ProductModel.findById(productId);
-    if (!product) {
-      throw new TransactionError(
-        PaymeErrors.ProductNotFound,
-        id,
-        PaymeData.ProductId
-      );
-    }
-    if (amount !== product.price) {
-      throw new TransactionError(PaymeErrors.InvalidAmount, id);
-    }
+    // const product = await ProductModel.findById(productId);
+    // if (!product) {
+    //   throw new TransactionError(
+    //     PaymeErrors.ProductNotFound,
+    //     id,
+    //     PaymeData.ProductId
+    //   );
+    // }
+    // if (amount !== product.price) {
+    //   throw new TransactionError(PaymeErrors.InvalidAmount, id);
+    // }
   }
   async checkTransaction(params, id) {
     const transaction = await TransactionModel.findById(params.id);

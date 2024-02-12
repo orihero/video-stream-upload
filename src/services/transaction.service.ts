@@ -15,8 +15,7 @@ export class TransactionService {
     } = params;
     let { amount } = params;
     amount = Math.floor(amount / 100);
-
-    const user = UserModel.findOne({ phone: userId });
+    const user = await UserModel.findOne({ phone: userId });
     if (!user) {
       throw new TransactionError(
         PaymeErrors.UserNotFound,
@@ -24,24 +23,12 @@ export class TransactionService {
         PaymeData.UserId
       );
     }
-    // const product = await ProductModel.findById(productId);
-    // if (!product) {
-    //   throw new TransactionError(
-    //     PaymeErrors.ProductNotFound,
-    //     id,
-    //     PaymeData.ProductId
-    //   );
-    // }
-    // if (amount !== product.price) {
-    //   throw new TransactionError(PaymeErrors.InvalidAmount, id);
-    // }
   }
   async checkTransaction(params, id) {
     const transaction = await TransactionModel.findById(params.id);
     if (!transaction) {
       throw new TransactionError(PaymeErrors.TransactionNotFound, id);
     }
-
     return {
       create_time: transaction.create_time,
       perform_time: transaction.perform_time,
@@ -61,9 +48,7 @@ export class TransactionService {
     amount = Math.floor(amount / 100);
 
     await this.checkPerformTransaction(params, id);
-    console.log("====================================");
-    console.log(params.id);
-    console.log("====================================");
+
     let transaction = await TransactionModel.findById(params.id);
     if (transaction) {
       if (transaction.state !== TransactionStates.Pending) {
@@ -88,22 +73,6 @@ export class TransactionService {
         create_time: transaction.create_time,
         transaction: transaction.id,
         state: TransactionStates.Pending,
-      };
-    }
-
-    transaction = await TransactionModel.findOne({
-      user_id: userId,
-      product_id: "productId",
-    });
-    if (transaction) {
-      // if (transaction.state === TransactionStates.Paid)
-      //   throw new TransactionError(PaymeErrors.AlreadyDone, id);
-      // if (transaction.state === TransactionStates.Pending)
-      //   throw new TransactionError(PaymeErrors.Pending, id);
-      return {
-        transaction: transaction.id,
-        create_time: transaction.create_time,
-        state: transaction.state,
       };
     }
 

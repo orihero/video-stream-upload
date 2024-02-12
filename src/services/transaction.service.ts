@@ -16,7 +16,7 @@ export class TransactionService {
     let { amount } = params;
     amount = Math.floor(amount / 100);
 
-    const user = UserModel.findOne({ phone: "+" + userId });
+    const user = UserModel.findOne({ phone: userId });
     if (!user) {
       throw new TransactionError(
         PaymeErrors.UserNotFound,

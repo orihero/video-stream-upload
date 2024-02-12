@@ -1,3 +1,4 @@
+import { environments } from "./src/config/environment";
 const express = require("express");
 const path = require("path");
 const multer = require("multer");
@@ -203,9 +204,10 @@ const initApp = async () => {
 
   // Take any port number of your choice which
   // is not taken by any other process
-  await app.listen(7400, function (error) {
+  const port = environments.PORT;
+  await app.listen(port, function (error) {
     if (error) throw error;
-    console.log("Server created Successfully on PORT 7400");
+    console.log(`Server created Successfully on PORT ${port}`);
   });
 };
 

@@ -34,6 +34,7 @@
       "@constants/*": ["./constants/*"],
       "@errors/*": ["./errors/*"],
       "@enums/*": ["./enums/*"],
+      "@config/*": ["./config/*"],
       "@services/*": ["./services/*"]
     },
     "composite": true,

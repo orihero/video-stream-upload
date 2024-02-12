@@ -69,6 +69,21 @@ export class TransactionService {
         create_time: transaction.create_time,
       };
     }
+
+    const newTransaction = await TransactionModel.create({
+      id: params.id,
+      state: TransactionStates.Pending,
+      amount,
+      user_id: userId,
+      product_id: "productId",
+      create_time: time,
+    });
+
+    return {
+      transaction: newTransaction.id,
+      state: TransactionStates.Pending,
+      create_time: newTransaction.create_time,
+    };
     // console.log("====================================");
     // console.log({ transaction });
     // console.log("====================================");

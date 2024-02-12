@@ -61,9 +61,9 @@ export class TransactionService {
     amount = Math.floor(amount / 100);
 
     await this.checkPerformTransaction(params, id);
-    console.log('====================================');
+    console.log("====================================");
     console.log(params.id);
-    console.log('====================================');
+    console.log("====================================");
     let transaction = await TransactionModel.findById(params.id);
     if (transaction) {
       if (transaction.state !== TransactionStates.Pending) {
@@ -96,10 +96,15 @@ export class TransactionService {
       product_id: "productId",
     });
     if (transaction) {
-      if (transaction.state === TransactionStates.Paid)
-        throw new TransactionError(PaymeErrors.AlreadyDone, id);
-      if (transaction.state === TransactionStates.Pending)
-        throw new TransactionError(PaymeErrors.Pending, id);
+      // if (transaction.state === TransactionStates.Paid)
+      //   throw new TransactionError(PaymeErrors.AlreadyDone, id);
+      // if (transaction.state === TransactionStates.Pending)
+      //   throw new TransactionError(PaymeErrors.Pending, id);
+      return {
+        transaction: transaction.id,
+        create_time: transaction.create_time,
+        state: transaction.state,
+      };
     }
 
     const newTransaction = await TransactionModel.create({

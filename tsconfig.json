@@ -31,7 +31,10 @@
       "@middlewares/*": ["./middlewares/*"],
       "@utils/*": ["./utils/*"],
       "@validation/*": ["./validation/*"],
-      "@constants/*": ["./constants/*"]
+      "@constants/*": ["./constants/*"],
+      "@errors/*": ["./errors/*"],
+      "@enums/*": ["./enums/*"],
+      "@services/*": ["./services/*"]
     },
     "composite": true,
     "plugins": [{ "transform": "typescript-transform-paths" }]

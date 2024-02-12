@@ -1,6 +1,6 @@
-import { PaymeMethods } from "enums/transaction.enums";
+import { PaymeMethods } from "@enums/transaction.enums";
 import { NextFunction, Request, Response, Router } from "express";
-import { TransactionService } from "services/transaction.service";
+import { TransactionService } from "@services/transaction.service";
 
 const payme = async (req: Request, res: Response, next: NextFunction) => {
   try {

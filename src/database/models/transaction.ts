@@ -1,4 +1,4 @@
-import { TransactionStates } from "enums/transaction.enums";
+import { TransactionStates } from "@enums/transaction.enums";
 import { Schema, model } from "mongoose";
 
 const transactionSchema = new Schema(

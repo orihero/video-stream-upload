@@ -152,19 +152,25 @@ export class TransactionService {
     const expirationTime = (currentTime - transaction.create_time) / 60000 < 12; // 12m
 
     if (!expirationTime) {
-      await TransactionModel.findByIdAndUpdate(params.id, {
-        state: TransactionStates.PendingCanceled,
-        reason: 4,
-        cancel_time: currentTime,
-      });
+      await TransactionModel.findOneAndUpdate(
+        { id: params.id },
+        {
+          state: TransactionStates.PendingCanceled,
+          reason: 4,
+          cancel_time: currentTime,
+        }
+      );
 
       throw new TransactionError(PaymeErrors.CantDoOperation, id);
     }
 
-    await TransactionModel.findByIdAndUpdate(params.id, {
-      state: TransactionStates.Paid,
-      perform_time: currentTime,
-    });
+    await TransactionModel.findOneAndUpdate(
+      { id: params.id },
+      {
+        state: TransactionStates.Paid,
+        perform_time: currentTime,
+      }
+    );
 
     return {
       perform_time: currentTime,

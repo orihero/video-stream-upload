@@ -179,7 +179,7 @@ export class TransactionService {
     };
   }
   async cancelTransaction(params, id) {
-    const transaction = await TransactionModel.findById(params.id);
+    const transaction = await TransactionModel.findOne({ id: params.id });
     if (!transaction) {
       throw new TransactionError(PaymeErrors.TransactionNotFound, id);
     }
@@ -187,11 +187,14 @@ export class TransactionService {
     const currentTime = Date.now();
 
     if (transaction.state > 0) {
-      await TransactionModel.findByIdAndUpdate(params.id, {
-        state: -Math.abs(transaction.state),
-        reason: params.reason,
-        cancel_time: currentTime,
-      });
+      await TransactionModel.findOneAndUpdate(
+        { id: params.id },
+        {
+          state: -Math.abs(transaction.state),
+          reason: params.reason,
+          cancel_time: currentTime,
+        }
+      );
     }
 
     return {

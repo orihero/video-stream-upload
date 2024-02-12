@@ -11,7 +11,7 @@ import { TransactionError } from "@errors/transaction.error";
 export class TransactionService {
   async checkPerformTransaction(params, id) {
     const {
-      account: { user_id: userId },
+      account: { phone_number: userId },
     } = params;
     let { amount } = params;
     amount = Math.floor(amount / 100);

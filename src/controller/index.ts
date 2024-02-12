@@ -8,6 +8,6 @@ const router = Router();
 
 router.use("/auth", authRoute);
 router.use("/user", authenticate, userRoute);
-router.use("/payme", authenticate, paymentRoute);
+router.use("/payme", paymentRoute);
 
 export default router;

@@ -209,30 +209,32 @@ export class TransactionService {
     const transactions = await TransactionModel.find({
       create_time: { $gt: fr, $lt: t },
     });
-    return transactions.map(
-      ({
-        id,
-        amount,
-        user_id: phone_number,
-        create_time,
-        perform_time,
-        cancel_time,
-        state,
-        reason,
-        paycom_id,
-      }) => ({
-        id,
-        time: create_time,
-        amount,
-        account: { phone_number },
-        create_time,
-        perform_time,
-        cancel_time,
-        transaction: paycom_id,
-        state,
-        reason,
-        recievers: null,
-      })
-    );
+    return {
+      transactions: transactions.map(
+        ({
+          id,
+          amount,
+          user_id: phone_number,
+          create_time,
+          perform_time,
+          cancel_time,
+          state,
+          reason,
+          paycom_id,
+        }) => ({
+          id,
+          time: create_time,
+          amount,
+          account: { phone_number },
+          create_time,
+          perform_time,
+          cancel_time,
+          transaction: paycom_id,
+          state,
+          reason,
+          recievers: null,
+        })
+      ),
+    };
   }
 }

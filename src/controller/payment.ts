@@ -33,6 +33,10 @@ const payme = async (req: Request, res: Response, next: NextFunction) => {
 
           return res.json({ result, id });
         }
+        case PaymeMethods.GetStatement: {
+          const result = await service.getStatement(params, id);
+          return res.json({ result });
+        }
       }
     } catch (err: any) {
       res.json({

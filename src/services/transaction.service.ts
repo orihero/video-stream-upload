@@ -66,6 +66,7 @@ export class TransactionService {
       user_id: userId,
       product_id: "productId",
       create_time: time,
+      paycom_id: id,
     });
 
     return {
@@ -202,5 +203,36 @@ export class TransactionService {
       transaction: transaction.id,
       state: -Math.abs(transaction.state),
     };
+  }
+  async getStatement(params, id) {
+    const { from: fr, to: t } = params;
+    const transactions = await TransactionModel.find({
+      create_time: { $gt: fr, $lt: t },
+    });
+    return transactions.map(
+      ({
+        id,
+        amount,
+        user_id: phone_number,
+        create_time,
+        perform_time,
+        cancel_time,
+        state,
+        reason,
+        paycom_id,
+      }) => ({
+        id,
+        time: create_time,
+        amount,
+        account: { phone_number },
+        create_time,
+        perform_time,
+        cancel_time,
+        transaction: paycom_id,
+        state,
+        reason,
+        recievers: null,
+      })
+    );
   }
 }

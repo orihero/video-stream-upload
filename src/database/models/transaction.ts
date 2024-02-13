@@ -40,6 +40,9 @@ const transactionSchema = new Schema(
       type: Number,
       default: null,
     },
+    paycom_id: {
+      type: String,
+    },
   },
   {
     timestamps: true,

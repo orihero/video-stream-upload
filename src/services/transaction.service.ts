@@ -174,7 +174,7 @@ export class TransactionService {
     );
     let user = await UserModel.findOne({ phone: transaction.user_id });
     user!.purchasedCourses = user?.pickedCourses;
-    user!.pickedCourses = undefined;
+    user!.pickedCourses = [];
     //@ts-ignore
     await UserModel.findByIdAndUpdate(user?._id, user);
     return {

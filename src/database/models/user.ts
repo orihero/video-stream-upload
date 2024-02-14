@@ -7,6 +7,7 @@ export interface IUser {
   region: string;
   dateOfBirth: string;
   purchasedCourses: string[];
+  pickedCourses: string[];
   affilateSource: string;
 }
 
@@ -33,6 +34,9 @@ const userSchema = new Schema<Partial<IUser>>({
     required: true,
   },
   purchasedCourses: {
+    type: [String],
+  },
+  pickedCourses: {
     type: [String],
   },
   affilateSource: {

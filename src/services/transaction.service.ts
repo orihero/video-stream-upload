@@ -172,7 +172,11 @@ export class TransactionService {
         perform_time: currentTime,
       }
     );
-
+    let user = await UserModel.findOne({ phone: transaction.user_id });
+    user!.purchasedCourses = user?.pickedCourses;
+    user!.pickedCourses = undefined;
+    //@ts-ignore
+    await UserModel.findByIdAndUpdate(user?._id, user);
     return {
       perform_time: currentTime,
       transaction: transaction.id,

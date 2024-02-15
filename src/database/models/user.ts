@@ -9,6 +9,15 @@ export interface IUser {
   purchasedCourses: string[];
   pickedCourses: string[];
   affilateSource: string;
+  progress: {
+    courseId: String;
+    classId: String;
+    progress: {
+      videoId: String;
+      progress: Number | String;
+      testResult: Number;
+    }[];
+  }[];
 }
 
 const userSchema = new Schema<Partial<IUser>>({
@@ -41,6 +50,17 @@ const userSchema = new Schema<Partial<IUser>>({
   },
   affilateSource: {
     type: String,
+  },
+  progress: {
+    type: [
+      {
+        courseId: String,
+        classId: String,
+        progress: [
+          { videoId: String, progress: Number, testResult: Number }, //in miliseconds
+        ],
+      },
+    ],
   },
 });
 
